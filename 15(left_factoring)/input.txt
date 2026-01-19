@@ -1,0 +1,4 @@
+2
+A 4 ab ac ad d
+B 2 x y
+
