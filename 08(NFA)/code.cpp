@@ -3,7 +3,13 @@ using namespace std;
 
 unordered_set<string>keywords = {"int", "char", "float", "double", "void", "if", "else", "for", "while", "return", "bool", "long", "short"};
 
-void NFA(string s){
+void NFA(ifstream &file){
+    string s = "";
+    char ch;
+    while(file.get(ch)){
+        s += ch;
+    }
+
     if(s.size() == 0){
         cout << "Rejected" << endl;
         return;
@@ -43,10 +49,15 @@ void NFA(string s){
 }
 
 int main(){
-    while(true){
-        string s;
-        cin >> s;
-        
-        NFA(s);
+    ifstream file;
+
+    file.open("input.txt");
+
+    if(!file){
+        cout << "file not found" << endl;
     }
+
+    NFA(file);
+
+    return 0;
 }

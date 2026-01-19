@@ -2,14 +2,14 @@
 using namespace std;
 
 // Keywords
-unordered_set<string> keywords = {
+vector<string> keywords = {
     "int", "char", "float", "double", "void",
     "if", "else", "for", "while", "return",
     "bool", "long", "short"
 };
 
 // Operators
-unordered_set<string> operators = {
+vector<string> operators = {
     "+", "-", "*", "/", "%", "=", "<", ">", "!",
     "==", "!=", "<=", ">=", "++", "--", "+=", "-=", "*=", "/="
 };
@@ -37,7 +37,11 @@ bool Identifier(string s){
     }
 
     if(state == 1){
-        if(keywords.find(s) != keywords.end()) return false;
+        for(auto &it : keywords){
+            if(it == s){
+                return false;
+            }
+        }
         return true;
     }
     return false;
@@ -76,7 +80,12 @@ bool Constant(string s){
 
 // Check operator
 bool Operator(string s){
-    return operators.find(s) != operators.end();
+    for(auto &it : keywords){
+            if(it == s){
+                return false;
+            }
+    }
+    return true;
 }
 
 // DFA for Operator
@@ -126,7 +135,18 @@ bool Operator(string s) {
 */
 
 // DFA for token type
-void DFA(string s){
+void DFA(ifstream &file){
+    string s = "";
+    char ch;
+    while(file.get(ch)){
+        s += ch;
+    }
+
+    if(s.empty()){
+        cout << "Empty String" << endl;
+        return;
+    }
+
     if(Identifier(s)) cout << "identifier" << endl;
     else if(Constant(s)) cout << "constant" << endl;
     else if(Operator(s)) cout << "operator" << endl;
@@ -134,10 +154,15 @@ void DFA(string s){
 }
 
 int main(){
-    string s;
-    while(true){
-        cout << "Enter token: ";
-        cin >> s;
-        DFA(s);
+    ifstream file;
+
+    file.open("input.txt");
+
+    if(!file){
+        cout << "file not found" << endl;
     }
+
+    DFA(file);
+
+    return 0;
 }
