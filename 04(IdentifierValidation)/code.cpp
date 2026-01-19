@@ -1,12 +1,27 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+vector<string> keywords = {
+    "auto", "break", "case", "char", "const", "continue", "default", "do",
+    "double", "else", "enum", "extern", "float", "for", "goto", "if", 
+    "inline", "int", "long", "register", "return", "short", "signed", 
+    "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned",
+    "void", "volatile", "while", "floor"
+};
+
 void identifierValidation(ifstream &file){
     string s = "";
 
     char ch;
     while(file.get(ch)){
         s += ch;
+    }
+    
+    for(auto &it : keywords){
+        if(it == s){
+            cout << "Invalid Indetifier because of using keywords" << endl;
+            return;
+        }
     }
 
     bool isValid = true;
